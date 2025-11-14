@@ -44,4 +44,59 @@ function getHumanChoice()
     return humanChoice;
 }
 
-console.log(getHumanChoice());
+function playRound(humanChoice, computerChoice)
+{
+    if(humanChoice === computerChoice)
+    {
+        console.log("Tie");
+    }
+    else
+    {
+        if(humanChoice === "Rock")
+        {
+            if(computerChoice === "Paper")
+            {
+                console.log("You lose this round, paper beats rock");
+                computerScore ++;
+            }
+            else
+            {
+                console.log("You win this round, rock beats scissors");
+                humanScore ++;
+            }
+        }
+        else if(humanChoice === "Paper")
+        {
+            if(computerChoice === "Rock")
+            {
+                console.log("You win this round, paper beats rock");
+                humanScore ++;
+            }
+            else
+            {
+                console.log("You lose this round, scissors beats paper");
+                computerScore ++;
+            }
+        }
+        else if(humanChoice === "Scissors")
+        {
+            if(computerChoice === "Rock")
+            {
+                console.log("You lose this round, rock beats scissors");
+                computerScore ++;
+            }
+            else
+            {
+                console.log("You win this round, scissors beats paper");
+                humanScore ++;
+            }
+        }
+    }
+
+    console.log(`User score: ${humanScore} Computer score: ${computerScore}`);
+}
+
+let humanScore = 0;
+let computerScore = 0;
+
+playRound(getHumanChoice(), getComputerChoice());
