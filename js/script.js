@@ -96,7 +96,31 @@ function playRound(humanChoice, computerChoice)
     console.log(`User score: ${humanScore} Computer score: ${computerScore}`);
 }
 
+function playGame()
+{
+    for(let i=0; i<5; i++)
+    {
+        playRound(getHumanChoice(), getComputerChoice());
+    }
+
+    if(humanScore === computerScore)
+    {
+        console.log("Tie");
+    }
+    else
+    {
+        if(humanScore > computerScore)
+        {
+            console.log("You win the game!");
+        }
+        else
+        {
+            console.log("You lose the game...");
+        }
+    }
+}
+
 let humanScore = 0;
 let computerScore = 0;
 
-playRound(getHumanChoice(), getComputerChoice());
+playGame();
