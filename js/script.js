@@ -46,9 +46,11 @@ function getHumanChoice()
 
 function playRound(humanChoice, computerChoice)
 {
+    let roundResultsMsg = "";
+
     if(humanChoice === computerChoice)
     {
-        console.log("Tie");
+        roundResult.textContent = "tie";
     }
     else
     {
@@ -56,12 +58,12 @@ function playRound(humanChoice, computerChoice)
         {
             if(computerChoice === "Paper")
             {
-                console.log("You lose this round, paper beats rock");
+                roundResult.textContent = "You lose this round, paper beats rock";
                 computerScore ++;
             }
             else
             {
-                console.log("You win this round, rock beats scissors");
+                roundResult.textContent = "You win this round, rock beats scissors";
                 humanScore ++;
             }
         }
@@ -69,12 +71,12 @@ function playRound(humanChoice, computerChoice)
         {
             if(computerChoice === "Rock")
             {
-                console.log("You win this round, paper beats rock");
+                roundResult.textContent = "You win this round, paper beats rock";
                 humanScore ++;
             }
             else
             {
-                console.log("You lose this round, scissors beats paper");
+                roundResult.textContent = "You lose this round, scissors beats paper";
                 computerScore ++;
             }
         }
@@ -82,45 +84,76 @@ function playRound(humanChoice, computerChoice)
         {
             if(computerChoice === "Rock")
             {
-                console.log("You lose this round, rock beats scissors");
+                roundResult.textContent = "You lose this round, rock beats scissors";
                 computerScore ++;
             }
             else
             {
-                console.log("You win this round, scissors beats paper");
+                roundResult.textContent = "You win this round, scissors beats paper";
                 humanScore ++;
             }
         }
     }
 
-    console.log(`User score: ${humanScore} Computer score: ${computerScore}`);
-}
-
-function playGame()
-{
-    for(let i=0; i<5; i++)
-    {
-        playRound(getHumanChoice(), getComputerChoice());
-    }
-
-    if(humanScore === computerScore)
-    {
-        console.log("Tie");
-    }
-    else
-    {
-        if(humanScore > computerScore)
-        {
-            console.log("You win the game!");
-        }
-        else
-        {
-            console.log("You lose the game...");
-        }
-    }
+    scoreInfo.textContent = ` User score: ${humanScore} Computer score: ${computerScore}`;
 }
 
 let humanScore = 0;
 let computerScore = 0;
 
-playGame();
+const resultsDiv = document.querySelector("div");
+
+const roundResult = document.createElement("p");
+const scoreInfo = document.createElement("p");
+const finalScore = document.createElement("p");
+resultsDiv.appendChild(roundResult);
+resultsDiv.appendChild(scoreInfo);
+
+const rpsButtons = document.querySelectorAll("button");
+
+const btnResetGame = document.createElement("button");
+
+rpsButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const userOption = button.textContent;
+
+        playRound(userOption, getComputerChoice());
+
+        if(humanScore === 5 || computerScore === 5)
+        {
+            resultsDiv.appendChild(finalScore);
+
+            if(humanScore === 5)
+            {
+                finalScore.textContent = "You win the Game!"
+            }
+            else
+            {
+                finalScore.textContent = "You lose the game..."
+            }
+
+            rpsButtons.forEach((button) => {
+                button.disabled = true;
+            });
+
+            const body = document.querySelector("body");
+            btnResetGame.textContent = "New game";
+            body.appendChild(btnResetGame);
+        }
+    });
+});
+
+btnResetGame.addEventListener("click", () => {
+    humanScore = 0;
+    computerScore = 0;
+
+    roundResult.textContent = "";
+    scoreInfo.textContent = "";
+    finalScore.textContent = "";
+
+    rpsButtons.forEach((button) => {
+        button.disabled = false;
+    });
+
+    btnResetGame.remove();
+})
